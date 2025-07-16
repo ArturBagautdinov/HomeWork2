@@ -20,17 +20,48 @@ struct User: Identifiable {
 }
 
 class MyViewModel: ObservableObject {
-    @Published var text = "Hello, World!"
-    var users: [User] = [User(login: "Arbuzzz3", name: "Artur", password: "123456", age: 19, birthday: "22.05.2006", email: "artur@gmail.com", phone: "+79123456789", biography: "Hello, Im Java Spring Developer!", avatar: "profile1Image"), .init(login: "Tom23", name: "Tom", password: "123123", age: 22, birthday: "19.07.2002", email: "tom@gmail.com", phone: "+79123456789", biography: "Hello, Im SwiftUI Developer!", avatar: "profileImage"), .init(login: "Abcd123", name: "John", password: "12312", age: 22, birthday: "19.07.2002", email: "john@gmail.com", phone: "+79123456789", biography: "Hello, I know C# not bad!")]
+    @Published var userLogin: String = ""
+    @Published var userPassword: String = ""
+    @Published var showAuthError = false
+    @Published var isNextScreenShown: User?
+    
+    var users: [User] = [.init(login: "Arbuzzz3",
+                              name: "Artur",
+                              password: "123456",
+                              age: 19,
+                              birthday: "22.05.2006",
+                              email: "artur@gmail.com",
+                              phone: "+79123456789",
+                              biography: "Hello, Im Java Spring Developer!",
+                              avatar: "profile1Image"),
+                         .init(login: "Tom23",
+                               name: "Tom",
+                               password: "123123",
+                               age: 22,
+                               birthday: "19.07.2002",
+                               email: "tom@gmail.com",
+                               phone: "+79123456789",
+                               biography: "Hello, Im SwiftUI Developer!",
+                               avatar: "profileImage"),
+                         .init(login: "Abcd123",
+                               name: "John",
+                               password: "12312",
+                               age: 22,
+                               birthday: "19.07.2002",
+                               email: "john@gmail.com",
+                               phone: "+79123456789",
+                               biography: "Hello, I know C# not bad!")]
 
 
-    func authorize(login: String, password: String) -> User? {
+    func authorize() {
         for user in users {
-            if user.login == login && user.password == password {
-                return user
+            if userLogin == user.login && userPassword == user.password {
+                isNextScreenShown = user
+                showAuthError = false
+                return
             }
         }
-        return nil
+        showAuthError = true
     }
 }
 
